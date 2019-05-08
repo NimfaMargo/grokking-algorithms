@@ -116,3 +116,19 @@ selectionSort([1, 3, 7, 2, -1])
 1. Выбрать опорный элемент
 Разделить массив на два подмассива: элементы, меньшие опорного и элементы большие опорного;
 2. Рекурсивно применить быструю сортировку к двум подмассивам;
+
+[Код](https://repl.it/@NimfaMargo/quickSort)
+
+```
+const quickSort = (arr) => {
+ if (arr.length < 2) {
+   return arr;
+ }
+ const pivot = arr[0];  // опорный элемент
+ const less = arr.filter(el => el < pivot);
+ const greater = arr.filter(el => el > pivot);
+ return [...quickSort(less), pivot, ...quickSort(greater)]
+}
+quickSort([1, 3, 7, 2, -1, 10])
+
+```
