@@ -253,8 +253,8 @@ const findLowestCostNode = (costs) => { // ф-ия для того чтобы н
  let lowestCostNode = null;
  for (node in costs) { // перебрать все узлы
    const cost = costs[node];
-   if (cost < Infinity && !processed.includes(node)) { // узел наим. и не обр.
-     lowestCost = cost; // он назначается новым узлом с наим. стоимостью
+   if (cost < Infinity && !processed.includes(node)) { // узел наименьший и не обработан
+     lowestCost = cost; // он назначается новым узлом с наименьшей стоимостью
      lowestCostNode = node
    }
  }
@@ -262,7 +262,7 @@ const findLowestCostNode = (costs) => { // ф-ия для того чтобы н
 }
 
 const algorithm = () => {
- let node = findLowestCostNode(costs); // узел с наим. стоимостью
+ let node = findLowestCostNode(costs); // узел с наименьшей стоимостью
  while (node) {
    const cost = costs[node]; // стоимость узла
    const neighbors = graphStart[node]; // его соседи
@@ -270,7 +270,7 @@ const algorithm = () => {
      const newCost = cost + neighbors[el]; // расстояние start -> B -> A
      if (costs[el] > newCost) { // сравнение стоимостей
        costs[el] = newCost; // обновление стоимости
-       parents[el] = node; // назначаем узел новым родителем, тк ч/з него путь
+       parents[el] = node; // назначаем узел новым родителем, т.к. через него путь
      }
      return null
    });
