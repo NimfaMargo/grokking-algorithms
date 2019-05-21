@@ -163,3 +163,49 @@ quickSort([1, 3, 7, 2, -1, 10])
 *Скопление* - это если несколько ключей отображаются на один элемент, в этом элементе создается связанный список, если список большой, скорость поиска будет O(n)    
 
 ![](/images/table2.png)
+
+## Поиск в ширину
+### Алгоритм
+1. Смоделировать задачу в виде графа
+2. Решить задачу методом поиска в ширину
+[Код](https://repl.it/@NimfaMargo/breadth-first-search)
+```
+const graph = { // ассоциативный массив
+ 'you': ['alice', 'bob', 'claire'] ,
+ 'bob': ['anji', 'peggy'],
+ 'alice': ['peggy'],
+ 'claire': ['jon'],
+ 'anji': [],
+ 'peggy': [],
+ 'jon': [],
+};
+const personIsJon = (name) => name === 'jon'
+
+const searchName = (name) => {
+ const queue = [];
+ queue.push(...graph[name]);
+ const searched = []; // то что уже проверено
+ while (queue.length > 0) {
+   const [person, ...rest] = queue;
+   queue.shift(person)
+   if (!searched.includes(person)){
+     if (personIsJon(person)) {
+       console.log('I finally find ' + person);
+       return true;
+     } else {
+       searched.push(person);
+       queue.push(...graph[person]);
+     }
+   }
+ }
+ return false
+}
+searchName('you')
+```
+
+- Поиск в ширину позволяет определить, существует ли путь из А в Б
+- Если существует, то поиск в ширину находит кратчайший путь
+- Графы состоят из узлов и ребер, частный случай - деревья (без ребер идущих вверх)
+- В направленном графе есть стрелки, в ненаправленном - нет (отношения идут в обе стороны);
+- Очередь - FIFO, Стек - LIFO
+- Список поиска лучше оформлять в виде очереди
