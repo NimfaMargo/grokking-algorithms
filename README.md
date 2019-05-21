@@ -210,3 +210,73 @@ searchName('you')
 - В направленном графе есть стрелки, в ненаправленном - нет (отношения идут в обе стороны);
 - Очередь - FIFO, Стек - LIFO
 - Список поиска лучше оформлять в виде очереди
+
+## Алгоритм Дейкстры
+- Поиск в ширину вычисляет кратчайший путь в невзвешенном графе
+- Алгоритм Дейкстры вычисляет кратчайший путь во взвешенном графе, граф у которого есть веса у ребер
+- Также он работает только с направленными ациклическими графами (DAG),
+Алгоритм не может работать с ребрами, которые имеют отрицательный вес (есть алгоритм Беллмана-Форда)
+
+### Алгоритм
+
+1. Найти узел с наименьшей стоимостью
+2. Обновить стоимости соседей этого узла
+3. Повторять для всех узлов
+4. Вычислить итоговый путь   
+
+![](/images/img.png)      
+[Код]()
+```
+const graphStart = {
+ 'start': {'a': 6, 'b':2 }, // начальный узел
+ 'a': { 'fin': 1 },
+ 'b': { 'a': 3, 'fin': 5 },
+ 'fin': {}, // у конечного узла нет соседей
+};
+
+const costs = { // хеш для хранения стоимости всех узлов
+ 'a': 6,
+ 'b': 2,
+ 'fin': Infinity,
+}
+
+const parents = {
+ 'a': 'start',
+ 'b': 'start',
+}
+
+const processed = []; // обработанные узлы
+
+const findLowestCostNode = (costs) => { // ф-ия для того чтобы найти наименьший узел
+ let lowestCost = Infinity;
+ let lowestCostNode = null;
+ for (node in costs) { // перебрать все узлы
+   const cost = costs[node];
+   if (cost < Infinity && !processed.includes(node)) { // узел наим. и не обр.
+     lowestCost = cost; // он назначается новым узлом с наим. стоимостью
+     lowestCostNode = node
+   }
+ }
+ return lowestCostNode;
+}
+
+const algorithm = () => {
+ let node = findLowestCostNode(costs); // узел с наим. стоимостью
+ while (node) {
+   const cost = costs[node]; // стоимость узла
+   const neighbors = graphStart[node]; // его соседи
+   Object.keys(neighbors).map(el => { // перебор соседей
+     const newCost = cost + neighbors[el]; // расстояние start -> B -> A
+     if (costs[el] > newCost) { // сравнение стоимостей
+       costs[el] = newCost; // обновление стоимости
+       parents[el] = node; // назначаем узел новым родителем, тк ч/з него путь
+     }
+     return null
+   });
+   processed.push(node); // помечаем узел как обработанный
+   node = findLowestCostNode(costs); // найти следующий узел
+ }
+ return parents;
+}
+algorithm(graphStart)
+```
