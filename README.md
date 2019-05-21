@@ -225,7 +225,7 @@ searchName('you')
 4. Вычислить итоговый путь   
 
 ![](/images/img.png)      
-[Код]()
+[Код](https://repl.it/@NimfaMargo/Dijkstras-algorithm)
 ```
 const graphStart = {
  'start': {'a': 6, 'b':2 }, // начальный узел
